@@ -3,6 +3,7 @@ FROM nginx
 
 # Copy the contents of the "dist" folder to the default Nginx public directory
 COPY dist/ /usr/share/nginx/html
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
 
 # Expose port 80
 EXPOSE 80
