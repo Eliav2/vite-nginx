@@ -6,9 +6,15 @@ this examples also setup up proxy from vite to the backend running on localhost:
 
 vite proxy is used while development and nginx proxy-pass is used in production.
 
-## running
+## running client
 
 ```bash
 pnpm run docker-build
 pnpm run docker-run
+```
+
+## running both client and backend
+
+```bash
+pnpm run docker-compose-start
 ```
