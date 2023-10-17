@@ -18,3 +18,41 @@ pnpm run docker-run
 ```bash
 pnpm run docker-compose-start
 ```
+
+## explanation
+
+The important part is in [/nginx/nginx.conf](/nginx/nginx.conf)
+```nginx configuration
+    server {
+            listen 8080;
+
+            # each request to /api/ will be proxied to http://backend:5000/ 
+             location /api/ {
+                    proxy_pass http://backend:5000/;
+            }
+
+            # all other requests will be served from /usr/share/nginx/html, which copied from dist folder built from vite
+            location / {
+                root /usr/share/nginx/html;
+                index index.html;
+            }
+    }
+```
+
+in development, we tell vite to proxy all requests to /api to localhost:5000, which is the backend server.
+```javascript
+export default defineConfig({
+    plugins: [react()],
+    server: {
+        proxy: {
+            "/api": {
+                target: "http://localhost:5000",
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/api/, ""),
+            },
+        },
+    },
+});
+```
+
+
